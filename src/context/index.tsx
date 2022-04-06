@@ -1,14 +1,22 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
 import api, { endpoint } from '../apis/index';
-import { Genre, Picture } from '../data/index';
+import { Genre, Picture, getNumberOfSlides } from '../data/index';
 
 interface ProviderProps {
   children: ReactNode;
 }
 
-interface ContextValues {}
+interface ContextValues {
+  moviesGenres: Genre[];
+  seriesGenres: Genre[];
+  topMovies: Picture[];
+  topSeries: Picture[];
+  popularMovies: Picture[];
+  popularSeries: Picture[];
+  numberOfSlides: number;
+}
 
-const Context = createContext<ContextValues>(!undefined);
+const Context = createContext<ContextValues>(undefined!);
 export default Context;
 
 export function ContextProvider({ children }: ProviderProps): JSX.Element {
@@ -18,6 +26,16 @@ export function ContextProvider({ children }: ProviderProps): JSX.Element {
   const [topSeries, setTopSeries] = useState<Picture[]>([]);
   const [popularMovies, setPopularMovies] = useState<Picture[]>([]);
   const [popularSeries, setPopularSeries] = useState<Picture[]>([]);
+  const [numberOfSlides, setNumberOfSlides] = useState<number>(
+    getNumberOfSlides(window.innerWidth)
+  );
+
+  useEffect(() => {
+    const onResize = (e: any) =>
+      setNumberOfSlides(getNumberOfSlides(e.target.innerWidth));
+    window.addEventListener<'resize'>('resize', onResize);
+    return () => window.removeEventListener<'resize'>('resize', onResize);
+  }, []);
 
   useEffect(() => {
     // prettier-ignore
@@ -30,12 +48,26 @@ export function ContextProvider({ children }: ProviderProps): JSX.Element {
       const series_t = (await api.get(endpoint('/tv/top_rated'))).data.results;
       setMoviesGenres(movies_g);
       setSeriesGenres(series_g);
-      setTopMovies(movies_p);
-      setTopSeries(movies_t);
-      setPopularMovies(series_p);
-      setPopularSeries(series_t);
+      setTopMovies(movies_t);
+      setPopularMovies(movies_p);
+      setTopSeries(series_t);
+      setPopularSeries(series_p);
     })();
   }, []);
 
-  return <Context.Provider value={{}}>{children}</Context.Provider>;
+  return (
+    <Context.Provider
+      value={{
+        moviesGenres,
+        seriesGenres,
+        popularMovies,
+        popularSeries,
+        topMovies,
+        topSeries,
+        numberOfSlides,
+      }}
+    >
+      {children}
+    </Context.Provider>
+  );
 }
