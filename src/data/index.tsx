@@ -11,6 +11,7 @@ export type Picture = {
   status: string;
   vote_average: string;
   release_date: string;
+  id: number;
 };
 
 export const getNumberOfSlides = (innerWidth: number): number => {

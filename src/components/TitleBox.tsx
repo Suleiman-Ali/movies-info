@@ -1,12 +1,17 @@
+import { Link } from 'react-router-dom';
+
 interface TitleBoxProps {
   title: string;
+  to: string;
 }
 
-function TitleBox({ title }: TitleBoxProps): JSX.Element {
+function TitleBox({ title, to }: TitleBoxProps): JSX.Element {
   return (
     <div className="titleBox">
       <p className="titleBox__title">{title}</p>
-      <button className="titleBox__btn">See More</button>
+      <Link to={to} className="titleBox__btn">
+        See More
+      </Link>
     </div>
   );
 }
