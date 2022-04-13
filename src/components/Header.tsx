@@ -34,17 +34,20 @@ function Header(): JSX.Element | null {
           <p className="header__text">{movie.overview}</p>
           <button
             className="header__btn"
-            onClick={() => navigate(`/picture/${movie.id}`, { state: movie })}
+            onClick={() => navigate(`/movies/${movie.id}`, { state: movie })}
           >
             View
           </button>
         </div>
 
-        <img
-          className="header__img"
-          src={prefixImg(movie.poster_path)}
-          alt={movie.title || movie.original_name}
-        />
+        <div className="header__imgBox">
+          <img
+            className="header__img"
+            src={prefixImg(movie.poster_path)}
+            alt={movie.title || movie.original_name}
+          />
+          <p className="header__rate">{movie.vote_average}</p>
+        </div>
       </div>
     </header>
   );

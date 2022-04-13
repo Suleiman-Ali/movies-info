@@ -1,7 +1,8 @@
 import Home from './Pages/Home';
 import Movies from './Pages/Movies';
-import PicturePage from './Pages/PicturePage';
 import Series from './Pages/Series';
+import MoviePage from './Pages/MoviePage';
+import SeriesPage from './Pages/SeriesPage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 function App(): JSX.Element {
@@ -9,10 +10,11 @@ function App(): JSX.Element {
     <BrowserRouter>
       <div className="app">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/movies/:id" element={<MoviePage />} />
+          <Route path="/series/:id" element={<SeriesPage />} />
           <Route path="/movies" element={<Movies />} />
           <Route path="/series" element={<Series />} />
-          <Route path="/picture/:id" element={<PicturePage />} />
+          <Route path="/" element={<Home />} />
         </Routes>
       </div>
     </BrowserRouter>

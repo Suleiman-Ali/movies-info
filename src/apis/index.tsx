@@ -9,3 +9,6 @@ export const endpoint = (ep: string): string =>
 
 export const prefixImg = (path: string): string =>
   `https://image.tmdb.org/t/p/original/${path}`;
+
+export const prefixVideo = (path: string): string =>
+  `https://www.youtube.com/embed/${path}`;

@@ -33,7 +33,7 @@ function Pictures({ arr, title, to }: PicturesProps): JSX.Element {
           <SwiperSlide
             className="picture"
             key={pic.id}
-            onClick={() => navigate(`/picture/${pic.id}`, { state: pic })}
+            onClick={() => navigate(`${to}/${pic.id}`, { state: pic })}
           >
             <PictureComponent pic={pic} />
           </SwiperSlide>
