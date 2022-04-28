@@ -1,15 +1,6 @@
 import api, { endpoint } from '../apis/index';
 import { createContext, ReactNode, useEffect, useState } from 'react';
-import {
-  Genre,
-  Picture,
-  getNumberOfSlides,
-  Cast,
-  Video,
-  SeriesDetails,
-  MovieDetails,
-} from '../data/index';
-
+import { Genre, Picture, getNumberOfSlides } from '../data/index';
 interface ProviderProps {
   children: ReactNode;
 }
@@ -20,15 +11,7 @@ interface ContextValues {
   topSeries: Picture[];
   popularMovies: Picture[];
   popularSeries: Picture[];
-  casts: Cast[];
-  trailer: Video | undefined;
   numberOfSlides: number;
-  seriesDetails: SeriesDetails | undefined;
-  movieDetails: MovieDetails | undefined;
-  castSetter: (casts: Cast[]) => void;
-  trailerSetter: (trailer: Video) => void;
-  movieDetailsSetter: (movieDetails: MovieDetails) => void;
-  seriesDetailsSetter: (seriesDetails: SeriesDetails) => void;
 }
 
 const Context = createContext<ContextValues>(undefined!);
@@ -40,22 +23,9 @@ export function ContextProvider({ children }: ProviderProps): JSX.Element {
   const [topSeries, setTopSeries] = useState<Picture[]>([]);
   const [popularMovies, setPopularMovies] = useState<Picture[]>([]);
   const [popularSeries, setPopularSeries] = useState<Picture[]>([]);
-  const [casts, setCasts] = useState<Cast[]>([]);
-  const [trailer, setTrailer] = useState<Video | undefined>();
-  const [seriesDetails, setSeriesDetails] = useState<
-    SeriesDetails | undefined
-  >();
-  const [movieDetails, setMovieDetails] = useState<MovieDetails | undefined>();
   const [numberOfSlides, setNumberOfSlides] = useState<number>(
     getNumberOfSlides(window.innerWidth)
   );
-
-  const castSetter = (casts: Cast[]): void => setCasts(casts);
-  const trailerSetter = (trailer: Video): void => setTrailer(trailer);
-  const movieDetailsSetter = (movieDetails: MovieDetails): void =>
-    setMovieDetails(movieDetails);
-  const seriesDetailsSetter = (seriesDetails: SeriesDetails): void =>
-    setSeriesDetails(seriesDetails);
 
   useEffect(() => {
     const onResize = (e: any) =>
@@ -91,14 +61,6 @@ export function ContextProvider({ children }: ProviderProps): JSX.Element {
         topMovies,
         topSeries,
         numberOfSlides,
-        movieDetails,
-        seriesDetails,
-        casts,
-        trailer,
-        movieDetailsSetter,
-        seriesDetailsSetter,
-        castSetter,
-        trailerSetter,
       }}
     >
       {children}

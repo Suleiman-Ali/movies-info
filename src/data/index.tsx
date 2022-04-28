@@ -28,13 +28,13 @@ export type Video = {
   type: string;
 };
 
-export type MovieDetails = {
+export type MovieDetailsType = {
   original_language: string;
   release_date: string;
   runtime: number;
 };
 
-export type SeriesDetails = {
+export type SeriesDetailsType = {
   number_of_seasons: number;
   number_of_episodes: number;
   original_language: string;
@@ -61,3 +61,72 @@ export const getMinutes = (min: number): string =>
 
 export const getDuration = (min: number): string =>
   `${getHours(min)}:${getMinutes(min)}`;
+
+export function filterByMethod(array: Picture[], method: string): Picture[] {
+  if (method === '-') return array;
+  if (method === 'Action')
+    return array.filter((pic) => pic.genre_ids.includes(28));
+  if (method === 'Comedy')
+    return array.filter((pic) => pic.genre_ids.includes(35));
+  if (method === 'Thriller')
+    return array.filter((pic) => pic.genre_ids.includes(53));
+  if (method === 'Drama')
+    return array.filter((pic) => pic.genre_ids.includes(18));
+  return array;
+}
+
+export function sortByMethod(
+  array: Picture[],
+  method: string,
+  order: string
+): Picture[] {
+  if (method === '-') return array;
+
+  const arr = [...array];
+
+  if (method === 'Title' && order === 'AS')
+    return arr.sort((a, b) =>
+      (a.original_name || a.title).localeCompare(b.original_name || b.title)
+    );
+
+  if (method === 'Title' && order === 'DS')
+    return arr
+      .sort((a, b) =>
+        (a.original_name || a.title).localeCompare(b.original_name || b.title)
+      )
+      .reverse();
+
+  if (method === 'Rate' && order === 'AS')
+    return arr.sort((a, b) => +a.vote_average - +b.vote_average);
+
+  if (method === 'Rate' && order === 'DS')
+    return arr.sort((a, b) => +b.vote_average - +a.vote_average);
+
+  return arr;
+}
+
+export const POPULAR_MOVIES_PATHS = {
+  picTo: '/movie',
+  typeTo: '/movie/popular',
+  searchTo: 'search/movie/',
+};
+
+export const TOP_MOVIES_PATHS = {
+  picTo: '/movie',
+  typeTo: '/movie/top_rated',
+  searchTo: 'search/movie/',
+};
+
+export const POPULAR_SERIES_PATHS = {
+  picTo: '/tv',
+  typeTo: '/tv/popular',
+  searchTo: 'search/tv/',
+};
+
+export const TOP_SERIES_PATHS = {
+  picTo: '/tv',
+  typeTo: '/tv/top_rated',
+  searchTo: 'search/tv/',
+};
+
+export const WAIT_TIME = 1000;

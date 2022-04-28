@@ -1,4 +1,3 @@
-import Context from '../../context';
 import Navbar from '../Navbar';
 import BackgroundImage from '../BackgroundImage';
 import PictureDetails from '../PictureDetails';
@@ -12,16 +11,26 @@ import Casts from '../Casts';
 import Trailer from '../Trailer';
 import Footer from '../Footer';
 import api, { endpoint } from '../../apis/index';
-import { useContext, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Picture, Video } from '../../data';
+import { Cast, Picture, Video, SeriesDetailsType } from '../../data';
 import '../../styles/PicturePage.scss';
+import Spinner from '../Spinner';
 
 function SeriesPage(): JSX.Element {
-  // prettier-ignore
-  const {  seriesDetailsSetter, castSetter, trailerSetter } = useContext(Context);
+  const [casts, setCasts] = useState<Cast[]>([]);
+  const [trailer, setTrailer] = useState<Video | undefined>();
+  const [seriesDetails, setSeriesDetails] = useState<
+    SeriesDetailsType | undefined
+  >();
   const { state } = useLocation();
   const pic = state as Picture;
+  const [backLoaded, setBackLoaded] = useState<boolean>(false);
+  const [frontLoaded, setFrontLoaded] = useState<boolean>(false);
+  const backLoadedHandler = () => setBackLoaded(true);
+  const frontLoadedHandler = () => setFrontLoaded(true);
+  const notLoaded = !backLoaded && !frontLoaded;
+  const notLoadedHide = notLoaded ? 'hide' : '';
 
   useEffect(() => {
     (async () => {
@@ -31,27 +40,38 @@ function SeriesPage(): JSX.Element {
       const c = cr.data.cast;
       const t = tr.data.results.find((item: Video) => item.type === 'Trailer');
       const d = dr.data;
-      seriesDetailsSetter(d);
-      castSetter(c);
-      trailerSetter(t);
+      setSeriesDetails(d);
+      setCasts(c);
+      setTrailer(t);
     })();
   }, []);
 
   return (
     <div className="picturePage">
       <Navbar />
-      <BackgroundImage pic={pic} />
-      <PictureDetails>
-        <Poster pic={pic} />
+      <BackgroundImage
+        pic={pic}
+        backLoadedHandler={backLoadedHandler}
+        cls={notLoadedHide}
+      />
+      <PictureDetails cls={notLoadedHide}>
+        <Poster pic={pic} frontLoadedHandler={frontLoadedHandler} />
         <PictureDetailsBox>
           <PictureTitle text={pic.title || pic.original_name} />
           <Genres pic={pic} />
-          <SeriesDetails />
+          <SeriesDetails seriesDetails={seriesDetails} />
           <PictureOverview text={pic.overview} />
-          <Casts />
+          <Casts casts={casts} />
         </PictureDetailsBox>
       </PictureDetails>
-      <Trailer />
+      <Trailer cls={notLoadedHide} trailer={trailer} />
+
+      {notLoaded && (
+        <div className="spinnerBox flex-1">
+          <Spinner cls="" />
+        </div>
+      )}
+
       <Footer />
     </div>
   );

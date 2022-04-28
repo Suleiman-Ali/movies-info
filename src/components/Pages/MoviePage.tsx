@@ -12,16 +12,26 @@ import Casts from '../Casts';
 import Trailer from '../Trailer';
 import Footer from '../Footer';
 import api, { endpoint } from '../../apis/index';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Picture, Video } from '../../data';
+import { Cast, MovieDetailsType, Picture, Video } from '../../data';
 import '../../styles/PicturePage.scss';
+import Spinner from '../Spinner';
 
 function MoviePage(): JSX.Element {
-  // prettier-ignore
-  const { movieDetailsSetter, castSetter, trailerSetter } = useContext(Context);
   const { state } = useLocation();
   const pic = state as Picture;
+  const [casts, setCasts] = useState<Cast[]>([]);
+  const [trailer, setTrailer] = useState<Video | undefined>();
+  const [movieDetails, setMovieDetails] = useState<
+    MovieDetailsType | undefined
+  >();
+  const [backLoaded, setBackLoaded] = useState<boolean>(false);
+  const [frontLoaded, setFrontLoaded] = useState<boolean>(false);
+  const backLoadedHandler = () => setBackLoaded(true);
+  const frontLoadedHandler = () => setFrontLoaded(true);
+  const notLoaded = !backLoaded && !frontLoaded;
+  const notLoadedHide = notLoaded ? 'hide' : '';
 
   useEffect(() => {
     (async () => {
@@ -31,27 +41,38 @@ function MoviePage(): JSX.Element {
       const c = cr.data.cast;
       const t = tr.data.results.find((item: Video) => item.type === 'Trailer');
       const d = dr.data;
-      movieDetailsSetter(d);
-      castSetter(c);
-      trailerSetter(t);
+      setMovieDetails(d);
+      setCasts(c);
+      setTrailer(t);
     })();
   }, []);
 
   return (
     <div className="picturePage">
       <Navbar />
-      <BackgroundImage pic={pic} />
-      <PictureDetails>
-        <Poster pic={pic} />
+      <BackgroundImage
+        pic={pic}
+        backLoadedHandler={backLoadedHandler}
+        cls={notLoadedHide}
+      />
+      <PictureDetails cls={notLoadedHide}>
+        <Poster pic={pic} frontLoadedHandler={frontLoadedHandler} />
         <PictureDetailsBox>
           <PictureTitle text={pic.title || pic.original_name} />
           <Genres pic={pic} />
-          <MovieDetails />
+          <MovieDetails movieDetails={movieDetails} />
           <PictureOverview text={pic.overview} />
-          <Casts />
+          <Casts casts={casts} />
         </PictureDetailsBox>
       </PictureDetails>
-      <Trailer />
+      <Trailer cls={notLoadedHide} trailer={trailer} />
+
+      {notLoaded && (
+        <div className="spinnerBox flex-1">
+          <Spinner cls="" />
+        </div>
+      )}
+
       <Footer />
     </div>
   );

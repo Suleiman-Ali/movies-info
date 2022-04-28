@@ -3,15 +3,22 @@ import { Picture } from '../data';
 
 interface BackgroundImageProps {
   pic: Picture;
+  cls: string;
+  backLoadedHandler: () => void;
 }
 
-function BackgroundImage({ pic }: BackgroundImageProps): JSX.Element {
+function BackgroundImage({
+  pic,
+  backLoadedHandler,
+  cls,
+}: BackgroundImageProps): JSX.Element {
   return (
-    <div className="picturePage__imgContainer">
+    <div className={`picturePage__imgContainer ${cls}`}>
       <img
         className="picturePage__img"
         src={prefixImg(pic.backdrop_path)}
         alt=""
+        onLoad={backLoadedHandler}
       />
       <div className="picturePage__overlay"></div>
     </div>

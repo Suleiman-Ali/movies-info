@@ -1,14 +1,18 @@
-import { useContext } from 'react';
 import { prefixVideo } from '../apis';
-import Context from '../context';
+import { Video } from '../data';
 
-function Trailer(): JSX.Element | null {
-  const { trailer } = useContext(Context);
+interface TrailerProps {
+  trailer: Video | undefined;
+  cls: string;
+}
+
+function Trailer({ trailer, cls }: TrailerProps): JSX.Element | null {
+  console.log(trailer?.key);
 
   if (!trailer) return null;
 
   return (
-    <div className="picturePage__trailerBox">
+    <div className={`picturePage__trailerBox ${cls}`}>
       <p className="picturePage__trailerTitle">{trailer.name}</p>
       <iframe
         src={prefixVideo(trailer.key)}
