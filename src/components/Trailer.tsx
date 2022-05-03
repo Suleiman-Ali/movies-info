@@ -7,8 +7,6 @@ interface TrailerProps {
 }
 
 function Trailer({ trailer, cls }: TrailerProps): JSX.Element | null {
-  console.log(trailer?.key);
-
   if (!trailer) return null;
 
   return (

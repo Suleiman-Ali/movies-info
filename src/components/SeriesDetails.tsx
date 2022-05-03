@@ -1,8 +1,8 @@
 import Detail from './Detail';
-import { SeriesDetailsType } from '../data';
+import { PictureDetailsType } from '../data';
 
 interface SeriesDetailsProps {
-  seriesDetails: SeriesDetailsType | undefined;
+  seriesDetails: PictureDetailsType | undefined;
 }
 
 function SeriesDetails({

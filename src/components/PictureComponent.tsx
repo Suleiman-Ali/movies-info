@@ -1,42 +1,54 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { prefixImg } from '../apis';
-import { Picture } from '../data';
 import Spinner from './Spinner';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { prefixImgW500 } from '../apis';
+import { Picture } from '../data';
 
-interface PictureProps {
+interface PictureComponentProps {
   picTo: string;
   pic: Picture;
+  replace: boolean;
+  loaderCls: string;
+  onClick?: () => void;
 }
 
-function PictureComponent({ pic, picTo }: PictureProps): JSX.Element {
-  const navigate = useNavigate();
+function PictureComponent({
+  pic,
+  picTo,
+  onClick,
+  replace,
+  loaderCls,
+}: PictureComponentProps): JSX.Element {
   const [loaded, setLoaded] = useState<boolean>(false);
-
-  const onClick = () => navigate(`${picTo}/${pic.id}`, { state: pic });
   const notLoadedHide = !loaded ? 'hide' : '';
-  const LoadedHide = loaded ? 'hide' : '';
+  const LoadedHide = `${loaded ? 'hide' : ''} ${loaderCls}`;
+  const { id, poster_path, original_name, title, vote_average } = pic;
 
   return (
-    <div className={`picture`}>
+    <Link
+      className={`picture`}
+      to={`${picTo}/${id}`}
+      replace={replace}
+      state={pic}
+      onClick={onClick}
+    >
       <img
         className={`picture__img ${notLoadedHide}`}
-        src={prefixImg(pic.poster_path)}
-        alt={pic.original_name || pic.title}
-        onClick={onClick}
+        src={prefixImgW500(poster_path)}
+        alt={original_name || title}
         onLoad={() => setLoaded(true)}
       />
 
-      <p className={`picture__title ${notLoadedHide}`} onClick={onClick}>
-        {pic.original_name || pic.title}
+      <p className={`picture__title ${notLoadedHide}`}>
+        {original_name || title}
       </p>
 
-      <p className={`picture__rate ${notLoadedHide}`} onClick={onClick}>
-        {pic.vote_average}
+      <p className={`picture__rate ${notLoadedHide}`}>
+        {(+vote_average).toFixed(1)}
       </p>
 
-      <Spinner cls={LoadedHide + ' margin-top-bottom-10'} />
-    </div>
+      <Spinner cls={LoadedHide} />
+    </Link>
   );
 }
 

@@ -1,6 +1,5 @@
 import Context from '../context';
 import PictureComponent from './PictureComponent';
-import TitleBox from './TitleBox';
 import { useContext } from 'react';
 import { Picture } from '../data';
 import { Navigation } from 'swiper';
@@ -8,41 +7,43 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-interface PicturesProps {
+interface SimilarPicturesProps {
   arr: Picture[];
-  title: string;
+  currentPicture: Picture;
   picTo: string;
-  typeTo: string;
+  pictureClickHandler: () => void;
 }
 
-function Pictures({
+function SimilarPictures({
   arr,
-  title,
+  currentPicture,
+  pictureClickHandler,
   picTo,
-  typeTo,
-}: PicturesProps): JSX.Element | null {
+}: SimilarPicturesProps): JSX.Element | null {
   const { numberOfSlides } = useContext(Context);
 
   if (arr.length <= 0) return null;
 
   return (
-    <div className={`PicturesBox`}>
-      <TitleBox title={title} typeTo={typeTo} />
+    <div className="similar__box">
+      <p className="similar__title">Similar Movies</p>
 
       <Swiper
         slidesPerView={numberOfSlides}
         modules={[Navigation]}
         spaceBetween={15}
-        className="pictures"
+        className="similar__pictures"
       >
         {arr.map(
-          (pic) =>
-            pic.poster_path && (
-              <SwiperSlide key={pic.id}>
+          (picture) =>
+            picture.poster_path &&
+            picture.id !== currentPicture.id && (
+              <SwiperSlide key={picture.id}>
                 <PictureComponent
-                  pic={pic}
+                  pic={picture}
                   picTo={picTo}
-                  replace={false}
+                  replace={true}
+                  onClick={pictureClickHandler}
                   loaderCls="margin-top-bottom-10"
                 />
               </SwiperSlide>
@@ -53,4 +54,4 @@ function Pictures({
   );
 }
 
-export default Pictures;
+export default SimilarPictures;

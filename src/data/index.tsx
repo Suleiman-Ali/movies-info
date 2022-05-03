@@ -28,16 +28,12 @@ export type Video = {
   type: string;
 };
 
-export type MovieDetailsType = {
+export type PictureDetailsType = {
   original_language: string;
   release_date: string;
   runtime: number;
-};
-
-export type SeriesDetailsType = {
   number_of_seasons: number;
   number_of_episodes: number;
-  original_language: string;
   first_air_date: string;
 };
 
@@ -104,6 +100,10 @@ export function sortByMethod(
 
   return arr;
 }
+
+export const getSetter =
+  (func: React.Dispatch<React.SetStateAction<number>>) => (n: number) =>
+    func(n);
 
 export const POPULAR_MOVIES_PATHS = {
   picTo: '/movie',

@@ -1,7 +1,7 @@
-import { Cast } from '../data';
-import { prefixImg } from '../apis';
-import { useState } from 'react';
 import Spinner from './Spinner';
+import { Cast } from '../data';
+import { prefixImgW500 } from '../apis';
+import { useState } from 'react';
 
 interface CastProps {
   cast: Cast;
@@ -15,7 +15,7 @@ function CastComponent({ cast }: CastProps): JSX.Element {
     <div className={`pictureDetails__cast`}>
       <img
         className={`pictureDetails__castImg ${notLoadedHide}`}
-        src={prefixImg(cast.profile_path)}
+        src={prefixImgW500(cast.profile_path)}
         alt=""
         onLoad={() => setLoaded(true)}
       />

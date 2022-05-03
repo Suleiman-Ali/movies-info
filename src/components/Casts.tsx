@@ -1,12 +1,12 @@
-import { Cast } from '../data';
 import CastComponent from './CastComponent';
+import { Cast } from '../data';
 
 interface CastsProps {
   casts: Cast[];
 }
 
 function Casts({ casts }: CastsProps): JSX.Element | null {
-  if (!casts) return null;
+  if (casts.length <= 0) return null;
 
   return (
     <div className="pictureDetails__casts">

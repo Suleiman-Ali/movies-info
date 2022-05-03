@@ -1,16 +1,16 @@
-import Header from '../Header';
 import Context from '../../context/index';
+import Navbar from '../Navbar';
+import Header from '../Header';
 import Pictures from '../Pictures';
 import Footer from '../Footer';
 import { useContext } from 'react';
-import '../../styles/Home.scss';
 import {
   POPULAR_MOVIES_PATHS,
   TOP_MOVIES_PATHS,
   POPULAR_SERIES_PATHS,
   TOP_SERIES_PATHS,
 } from '../../data/index';
-import Navbar from '../Navbar';
+import '../../styles/Home.scss';
 
 function Home(): JSX.Element | null {
   const { popularMovies, popularSeries, topMovies, topSeries } =

@@ -1,8 +1,8 @@
-import { getDuration, MovieDetailsType } from '../data';
 import Detail from './Detail';
+import { getDuration, PictureDetailsType } from '../data';
 
 interface MovieDetailsProps {
-  movieDetails: MovieDetailsType | undefined;
+  movieDetails: PictureDetailsType | undefined;
 }
 
 function MovieDetails({ movieDetails }: MovieDetailsProps): JSX.Element | null {

@@ -1,4 +1,3 @@
-import Context from '../../context';
 import Navbar from '../Navbar';
 import PicturesGrid from '../PicturesGrid';
 import ModelFormLabel from '../ModelFormLabel';
@@ -8,35 +7,40 @@ import ModelFormBox from '../ModelFormBox';
 import PicturesPageForm from '../PicturesPageForm';
 import SettingsIcon from '../SettingsIcon';
 import Button from '../Button';
+import Spinner from '../Spinner';
 import Footer from '../Footer';
 import api, { endpoint, endPointWithQuery } from '../../apis/index';
-import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import { Picture } from '../../data';
-import { POPULAR_MOVIES_PATHS } from '../../data/index';
 import '../../styles/PicturesPage.scss';
-import Spinner from '../Spinner';
 
-function PopularMovies(): JSX.Element {
-  const { popularMovies } = useContext(Context);
-  const [picTo, setPicTo] = useState<string>(POPULAR_MOVIES_PATHS.picTo);
-  const [typeTo, setTypeTo] = useState<string>(POPULAR_MOVIES_PATHS.typeTo);
-  const [searchTo, setSearchTo] = useState<string>(
-    POPULAR_MOVIES_PATHS.searchTo
-  );
-  const [keyword, setKeyword] = useState<string>('');
+interface AllPicturesProps {
+  picTo: string;
+  typeTo: string;
+  searchTo: string;
+  arr: Picture[];
+}
+
+function AllPictures({
+  arr,
+  picTo,
+  typeTo,
+  searchTo,
+}: AllPicturesProps): JSX.Element {
   const userInput = useRef<HTMLInputElement>(undefined!);
+  const [pictures, setPictures] = useState<Picture[]>([]);
+  const [keywordPictures, setKeywordPictures] = useState<Picture[]>([]);
+  const [keyword, setKeyword] = useState<string>('');
   const [model, setModel] = useState<boolean>(false);
   const [filterBy, setFilterBy] = useState<string>('-');
   const [sortBy, setSortBy] = useState<string>('-');
   const [sortingOrder, setSortingOrder] = useState<string>('AS');
-  const [pictures, setPictures] = useState<Picture[]>([]);
-  const [keywordPictures, setKeywordPictures] = useState<Picture[]>([]);
   const [indexPage, setIndexPage] = useState<number>(2);
   const [keywordIndexPage, setKeywordIndexPage] = useState<number>(2);
 
   useEffect(() => {
-    if (popularMovies.length > 0) setPictures(popularMovies);
-  }, [popularMovies]);
+    if (arr.length > 0) setPictures(arr);
+  }, [arr]);
 
   const loadMoreHandler = async () => {
     const res = await api.get(endpoint(typeTo, indexPage));
@@ -221,4 +225,4 @@ function PopularMovies(): JSX.Element {
   );
 }
 
-export default PopularMovies;
+export default AllPictures;

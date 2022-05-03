@@ -1,4 +1,4 @@
-import { prefixImg } from '../apis';
+import { prefixImgOriginal } from '../apis';
 import { Picture } from '../data';
 
 interface BackgroundImageProps {
@@ -16,7 +16,7 @@ function BackgroundImage({
     <div className={`picturePage__imgContainer ${cls}`}>
       <img
         className="picturePage__img"
-        src={prefixImg(pic.backdrop_path)}
+        src={prefixImgOriginal(pic.backdrop_path)}
         alt=""
         onLoad={backLoadedHandler}
       />

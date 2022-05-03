@@ -1,7 +1,5 @@
-import { useNavigate } from 'react-router-dom';
+import PictureComponent from './PictureComponent';
 import { filterByMethod, Picture, sortByMethod } from '../data';
-import { prefixImg } from '../apis';
-import PictureItem from './PictureItem';
 
 interface PicturesGridProps {
   pics: Picture[];
@@ -26,16 +24,21 @@ function PicturesGrid({
     sortingOrder
   ).filter((pic) => pic.poster_path);
 
-  if (arr.length > 0)
-    return (
-      <div className={`picturesGrid ${cls}`}>
-        {arr.map((pic) => (
-          <PictureItem pic={pic} picTo={picTo} key={pic.id} />
-        ))}
-      </div>
-    );
+  if (arr.length <= 0) return null;
 
-  return null;
+  return (
+    <div className={`picturesGrid ${cls}`}>
+      {arr.map((pic) => (
+        <PictureComponent
+          key={pic.id}
+          pic={pic}
+          picTo={picTo}
+          replace={false}
+          loaderCls="margin-all-10"
+        />
+      ))}
+    </div>
+  );
 }
 
 export default PicturesGrid;
