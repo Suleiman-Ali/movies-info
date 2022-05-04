@@ -1,7 +1,7 @@
 import Spinner from './Spinner';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { prefixImgW500 } from '../apis';
+import { prefixSmallImg } from '../apis';
 import { Picture } from '../data';
 
 interface PictureComponentProps {
@@ -34,9 +34,10 @@ function PictureComponent({
     >
       <img
         className={`picture__img ${notLoadedHide}`}
-        src={prefixImgW500(poster_path)}
+        src={prefixSmallImg(poster_path)}
         alt={original_name || title}
         onLoad={() => setLoaded(true)}
+        loading="lazy"
       />
 
       <p className={`picture__title ${notLoadedHide}`}>

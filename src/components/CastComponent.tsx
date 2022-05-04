@@ -1,6 +1,6 @@
 import Spinner from './Spinner';
 import { Cast } from '../data';
-import { prefixImgW500 } from '../apis';
+import { prefixSmallImg } from '../apis';
 import { useState } from 'react';
 
 interface CastProps {
@@ -15,9 +15,10 @@ function CastComponent({ cast }: CastProps): JSX.Element {
     <div className={`pictureDetails__cast`}>
       <img
         className={`pictureDetails__castImg ${notLoadedHide}`}
-        src={prefixImgW500(cast.profile_path)}
+        src={prefixSmallImg(cast.profile_path)}
         alt=""
         onLoad={() => setLoaded(true)}
+        loading="lazy"
       />
       <p className={`pictureDetails__castName ${notLoadedHide}`}>
         {cast.original_name}

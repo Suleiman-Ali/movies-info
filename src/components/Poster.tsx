@@ -1,4 +1,4 @@
-import { prefixImgW500 } from '../apis';
+import { prefixMediumImg } from '../apis';
 import { Picture } from '../data';
 
 interface PosterProps {
@@ -11,7 +11,7 @@ function Poster({ pic, frontLoadedHandler }: PosterProps): JSX.Element {
     <div className="pictureDetails__posterBox">
       <img
         className="pictureDetails__poster"
-        src={prefixImgW500(pic.poster_path)}
+        src={prefixMediumImg(pic.poster_path)}
         alt=""
         onLoad={frontLoadedHandler}
       />

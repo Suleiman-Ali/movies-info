@@ -2,7 +2,7 @@ import Context from '../context';
 import Spinner from './Spinner';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { prefixImgOriginal, prefixImgW500 } from '../apis';
+import { prefixImgOriginal, prefixMediumImg, prefixSmallImg } from '../apis';
 import { useState } from 'react';
 import { useEffect } from 'react';
 
@@ -62,7 +62,7 @@ function Header(): JSX.Element {
         <Link className="header__imgBox" to={`/movie/${id}`} state={movie}>
           <img
             className="header__img"
-            src={prefixImgW500(poster_path)}
+            src={prefixMediumImg(poster_path)}
             alt={title || original_name}
             onLoad={() => setFrontLoaded(true)}
           />
