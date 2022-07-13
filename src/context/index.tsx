@@ -38,16 +38,40 @@ export function ContextProvider({ children }: ProviderProps): JSX.Element {
     // prettier-ignore
     (async () => {
       const movies_p = (await api.get(endpoint('/movie/popular'))).data.results;
+      setPopularMovies(movies_p);
+    })();
+  }, []);
+
+  useEffect(() => {
+    // prettier-ignore
+    (async () => {
       const movies_t = (await api.get(endpoint('/movie/top_rated'))).data.results;
+      setTopMovies(movies_t);
+    })();
+  }, []);
+
+  useEffect(() => {
+    // prettier-ignore
+    (async () => {
       const series_p = (await api.get(endpoint('/tv/popular'))).data.results;
+      setPopularSeries(series_p);
+    })();
+  }, []);
+
+  useEffect(() => {
+    // prettier-ignore
+    (async () => {
       const series_t = (await api.get(endpoint('/tv/top_rated'))).data.results;
+      setTopSeries(series_t);
+    })();
+  }, []);
+
+  useEffect(() => {
+    // prettier-ignore
+    (async () => {
       const movies_g = (await api.get(endpoint('/genre/movie/list'))).data.genres;
       const series_g = (await api.get(endpoint('/genre/tv/list'))).data.genres;
       const all_genres = [...movies_g, ...series_g];
-      setPopularMovies(movies_p);
-      setTopMovies(movies_t);
-      setPopularSeries(series_p);
-      setTopSeries(series_t);
       setGenres(all_genres);
     })();
   }, []);
