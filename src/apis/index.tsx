@@ -5,14 +5,13 @@ export default axios.create({
 });
 
 export const endpoint = (ep: string, page: number = 1): string =>
-  `${ep}?api_key=3ec4d8d0f832d2541e0951a665871b6b&page=${page}`;
+  `${ep}?api_key=API_KEY&page=${page}`;
 
 export const endPointWithQuery = (
   ep: string,
   query: string,
   page: number = 1
-): string =>
-  `${ep}?api_key=3ec4d8d0f832d2541e0951a665871b6b&query=${query}&page=${page}`;
+): string => `${ep}?api_key=API_KEY&query=${query}&page=${page}`;
 
 export const prefixSmallImg = (path: string): string =>
   `https://image.tmdb.org/t/p/w300/${path}`;
