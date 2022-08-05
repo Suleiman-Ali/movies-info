@@ -8,11 +8,9 @@ Movies Info is an app where you can view details of your favourite TV Shows and 
 
 
 ### Built Using
-- HTML with JSX
-- CSS with SCSS
-- JavaScript with Typescript 
+- HTML
+- SASS
+- Typescript 
 - ReactJs
-- Axios
 - SwiperJs
-- Bootstrap Icons
 - TMDB API
