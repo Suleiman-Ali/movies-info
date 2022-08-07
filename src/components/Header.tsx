@@ -2,7 +2,7 @@ import Context from '../context';
 import Spinner from './Spinner';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { prefixImgOriginal, prefixMediumImg, prefixSmallImg } from '../apis';
+import { prefixImgOriginal, prefixMediumImg } from '../apis';
 import { useState } from 'react';
 import { useEffect } from 'react';
 
