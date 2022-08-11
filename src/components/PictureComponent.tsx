@@ -37,7 +37,6 @@ function PictureComponent({
         src={prefixSmallImg(poster_path)}
         alt={original_name || title}
         onLoad={() => setLoaded(true)}
-        loading="lazy"
       />
 
       <p className={`picture__title ${notLoadedHide}`}>

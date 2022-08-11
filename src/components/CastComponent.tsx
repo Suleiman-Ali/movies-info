@@ -18,7 +18,6 @@ function CastComponent({ cast }: CastProps): JSX.Element {
         src={prefixSmallImg(cast.profile_path)}
         alt=""
         onLoad={() => setLoaded(true)}
-        loading="lazy"
       />
       <p className={`pictureDetails__castName ${notLoadedHide}`}>
         {cast.original_name}
