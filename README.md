@@ -7,7 +7,7 @@ Movies Info is an app where you can view details of your favourite TV Shows and 
 ![Alt text](./site-moviepage-image.png)
 
 
-### Built Using
+### Technologies
 - HTML
 - SASS
 - Typescript 
