@@ -35,44 +35,20 @@ export function ContextProvider({ children }: ProviderProps): JSX.Element {
   }, []);
 
   useEffect(() => {
-    // prettier-ignore
     (async () => {
-      const movies_p = (await api.get(endpoint('/movie/popular'))).data.results;
-      setPopularMovies(movies_p);
-    })();
-  }, []);
-
-  useEffect(() => {
-    // prettier-ignore
-    (async () => {
-      const movies_t = (await api.get(endpoint('/movie/top_rated'))).data.results;
-      setTopMovies(movies_t);
-    })();
-  }, []);
-
-  useEffect(() => {
-    // prettier-ignore
-    (async () => {
-      const series_p = (await api.get(endpoint('/tv/popular'))).data.results;
-      setPopularSeries(series_p);
-    })();
-  }, []);
-
-  useEffect(() => {
-    // prettier-ignore
-    (async () => {
-      const series_t = (await api.get(endpoint('/tv/top_rated'))).data.results;
-      setTopSeries(series_t);
-    })();
-  }, []);
-
-  useEffect(() => {
-    // prettier-ignore
-    (async () => {
-      const movies_g = (await api.get(endpoint('/genre/movie/list'))).data.genres;
-      const series_g = (await api.get(endpoint('/genre/tv/list'))).data.genres;
-      const all_genres = [...movies_g, ...series_g];
-      setGenres(all_genres);
+      const allData = await Promise.all([
+        api.get(endpoint('/movie/popular')),
+        api.get(endpoint('/movie/top_rated')),
+        api.get(endpoint('/tv/popular')),
+        api.get(endpoint('/tv/top_rated')),
+        api.get(endpoint('/genre/movie/list')),
+        api.get(endpoint('/genre/tv/list')),
+      ]);
+      setPopularMovies(allData[0].data.results);
+      setTopMovies(allData[1].data.results);
+      setPopularSeries(allData[2].data.results);
+      setTopSeries(allData[3].data.results);
+      setGenres([...allData[4].data.genres, ...allData[5].data.genres]);
     })();
   }, []);
 

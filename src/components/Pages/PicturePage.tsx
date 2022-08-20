@@ -39,20 +39,18 @@ function PicturePage({ setter, to }: PicturePageProps): JSX.Element {
   useEffect(() => {
     if (pic)
       (async () => {
-        const cr = await api.get(endpoint(`${to}/${pic.id}/credits`));
-        const tr = await api.get(endpoint(`${to}/${pic.id}/videos`));
-        const dr = await api.get(endpoint(`${to}/${pic.id}`));
-        const sr = await api.get(endpoint(`${to}/${pic.id}/similar`));
-        const c = cr.data.cast;
-        const t = tr.data.results.find(
-          (item: Video) => item.type === 'Trailer'
+        const allData = await Promise.all([
+          api.get(endpoint(`${to}/${pic.id}`)),
+          api.get(endpoint(`${to}/${pic.id}/credits`)),
+          api.get(endpoint(`${to}/${pic.id}/videos`)),
+          api.get(endpoint(`${to}/${pic.id}/similar`)),
+        ]);
+        setPictureDetails(allData[0].data);
+        setCasts(allData[1].data.cast);
+        setTrailer(
+          allData[2].data.results.find((item: Video) => item.type === 'Trailer')
         );
-        const d = dr.data;
-        const s = sr.data.results;
-        setPictureDetails(d);
-        setCasts(c);
-        setTrailer(t);
-        setSimilarPictures(s);
+        setSimilarPictures(allData[3].data.results);
       })();
   }, [pic]);
 
