@@ -1,6 +1,6 @@
 # Movies Info 🎥  
 
-Movies Info is an app where you can view details of your favourite TV Shows and Movies, it is similar to IMDB.
+Movies Info is an information database where users can view details about their favorite shows and movies.
 
 ![Alt text](./site-homepage-image.png)
 ![Alt text](./site-moviespage-image.png)
